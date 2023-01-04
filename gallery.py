@@ -15,6 +15,9 @@ class Gallery:
         self.header = header
         self.ext = ext
         self.images = []
+        self.is_audio = False
+        if ext == '.wav' or ext == '.mp3':
+            self.is_audio = True
         try:
             if path != '.':
                 os.makedirs(path)
@@ -31,15 +34,30 @@ class Gallery:
                     'text': ''})
         pass
 
+    def next_audio (self, text=None, ext='.wav'):
+        path = '%03d%s' % (self.next_id, ext)
+        self.next_id += 1
+        self.images.append({
+            'audio': path,
+            'text': text,
+            'link': None})
+        return os.path.join(self.path, path)
+
     def next (self, text=None, link=None, ext=None, path=None):
         if ext is None:
             ext = self.ext
         if path is None:
             path = '%03d%s' % (self.next_id, ext)
-        self.images.append({
-            'image': path,
-            'text': text,
-            'link': link})
+        if self.is_audio:
+            self.images.append({
+                'audio': path,
+                'text': text,
+                'link': link})
+        else:
+            self.images.append({
+                'image': path,
+                'text': text,
+                'link': link})
         self.next_id += 1
         return os.path.join(self.path, path)
 

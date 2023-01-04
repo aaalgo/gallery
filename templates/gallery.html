@@ -21,17 +21,20 @@
   {% for col in row %}
   <td>
     {% if col.image %}
-    {% if col.link %}
-    <a href='{{col.link}}'><img src='{{col.image}}'></img></a>
+      {% if col.link %}
+      <a href='{{col.link}}'><img src='{{col.image}}'></img></a>
+      {% else %}
+      <img src='{{col.image}}'></img>
+      {% endif %}
+      {% if col.text %}
+      <br/>
+      {% endif %}
+    {% elif col.audio %}
+      <audio controls><source src='{{col.audio}}' type="audio/mpeg"></audio>
     {% else %}
-    <img src='{{col.image}}'></img>
-    {% endif %}
-    {% if col.text %}
-    <br/>
-    {% endif %}
-    {% endif %}
-    {% if col.text %}
-    {{col.text}}
+      {% if col.text %}
+      {{col.text}}
+      {% endif %}
     {% endif %}
   </td>
   {% endfor %}
